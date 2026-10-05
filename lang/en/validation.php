@@ -10,5 +10,11 @@ return [
     'attributes' => [
         'email' => 'email',
         'password' => 'password',
+        'name' => 'name',
+        'full_name' => 'full name',
+        'address' => 'address',
+        'shipping_address' => 'shipping address',
+        'county' => 'county',
+        'phone' => 'phone'
     ],
 ];
