@@ -60,6 +60,7 @@ class AuthTest extends TestCase
 
         // verificar exista la clave "access_token".
         $this->assertArrayHasKey('access_token', $response->json());
+        $this->assertArrayHasKey('user', $response->json());
 
         // Verifica que la variable $user contenga una instancia del modelo User.
         $this->assertInstanceOf(User::class, $user);
@@ -144,7 +145,7 @@ class AuthTest extends TestCase
         $this->assertArrayHasKey('user', $response->json());
 
         $response->assertJsonStructure([
-            'user'
+            'user', 'access_token'
         ]);
     }
 
