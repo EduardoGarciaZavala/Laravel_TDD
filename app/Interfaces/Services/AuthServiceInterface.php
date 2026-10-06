@@ -9,4 +9,6 @@ interface AuthServiceInterface
     public function register(array $data): array;
 
     public function me(): array;
+
+    public function logout(): void;
 }

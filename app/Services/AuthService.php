@@ -49,4 +49,9 @@ class AuthService implements AuthServiceInterface
             'user' => Auth::user()
         ];
     }
+
+    public function logout() :void
+    {
+        Auth::user()->token()->revoke();
+    }
 }

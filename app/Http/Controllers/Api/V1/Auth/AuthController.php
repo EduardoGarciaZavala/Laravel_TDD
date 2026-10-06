@@ -31,4 +31,11 @@ class AuthController extends Controller
     {
         return response()->json($this->auth->me());
     }
+
+    public function logout(){
+
+    $this->auth->logout();
+    //tambien se puede enviar un mensaje 
+    return response()->noContent();
+    }
 }

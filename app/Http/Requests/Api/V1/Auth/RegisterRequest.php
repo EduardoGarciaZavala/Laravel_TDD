@@ -26,7 +26,6 @@ class RegisterRequest extends FormRequest
             'full_name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|string|min:8',
-            'role' => 'boolean',
             'address' => 'required|string',
             'shipping_address' => 'required|string',
             'county' => 'required|string',
