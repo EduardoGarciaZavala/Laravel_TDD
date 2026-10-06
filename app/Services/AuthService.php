@@ -42,4 +42,11 @@ class AuthService implements AuthServiceInterface
             'access_token' => $token,
         ];
     }
+
+    public function me(): array
+    {
+        return [
+            'user' => Auth::user()
+        ];
+    }
 }
