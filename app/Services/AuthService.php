@@ -46,7 +46,8 @@ class AuthService implements AuthServiceInterface
     public function me(): array
     {
         return [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'access_token' => Auth::user()->token()
         ];
     }
 

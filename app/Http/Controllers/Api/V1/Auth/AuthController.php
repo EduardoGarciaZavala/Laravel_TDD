@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
+use App\Http\Resources\Api\V1\Auth\AuthResource;
 use App\Interfaces\Services\AuthServiceInterface;
 
 class AuthController extends Controller
@@ -17,19 +18,19 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
 
-        return response()->json($this->auth->login($credentials));
+        return response()->json(new AuthResource($this->auth->login($credentials)));
     }
 
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
-        return response()->json($this->auth->register($data), 201);
+        return response()->json(new AuthResource($this->auth->register($data)), 201);
     }
 
     public function me()
     {
-        return response()->json($this->auth->me());
+        return response()->json(new AuthResource($this->auth->me()));
     }
 
     public function logout(){
