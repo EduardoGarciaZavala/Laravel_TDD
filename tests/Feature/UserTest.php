@@ -77,7 +77,7 @@ class UserTest extends TestCase
         $response->assertStatus(200);
 
         //validar que envia la instancia del usuario
-        $response->assertArrayKey('user', $response->json());
+        $this->assertArrayHasKey('user', $response->json());
 
         $response->assertJsonStructure([
             'user'
