@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
         'name',
-        'slig',
+        'slug',
         'description',
         'image',
         'is_active',
@@ -26,12 +27,12 @@ class Category extends Model
 
     protected $casts = [
         'name' => 'string',
-        'slig' => 'string',
+        'slug' => 'string',
         'description' => 'string',
         'image' => 'string',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
-        'created_by' => 'datetime',
-        'updated_by' => 'datetime'
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 }
