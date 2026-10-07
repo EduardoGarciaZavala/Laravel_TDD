@@ -116,7 +116,7 @@ class AuthTest extends TestCase
      * Comprueba que se obtenga informacion de usuario
      * responda con un estado HTTP 200 e incluya un array con la informacion del usuario.
      */
-    public function test_authenticated_user_can_retrieve_his_information(): void
+    public function test_user_can_retrieve_his_information(): void
     {
         //ver excepciones reales
         $this->WithoutExceptionHandling();
