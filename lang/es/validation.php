@@ -12,9 +12,9 @@ return [
         'password' => 'contraseña',
         'name' => 'nombre',
         'full_name' => 'nombre completo',
-        'address' => 'direccion',
-        'shipping_address' => 'direccion de envio',
-        'county' => 'pais',
-        'phone' => 'telefono'
+        'address' => 'dirección',
+        'shipping_address' => 'dirección de envío',
+        'country' => 'país',
+        'phone' => 'teléfono'
     ],
 ];

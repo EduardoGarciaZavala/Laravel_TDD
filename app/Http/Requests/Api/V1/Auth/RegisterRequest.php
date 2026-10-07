@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|confirmed|string|min:8',
             'address' => 'required|string',
             'shipping_address' => 'required|string',
-            'county' => 'required|string',
+            'country' => 'required|string',
             'phone' => 'required|string|size:10',
         ];
     }

@@ -45,7 +45,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('12345678'),
             'address' => 'test #123',
             'shipping_address' => 'test #1231',
-            'county' => 'Mexico',
+            'country' => 'Mexico',
             'phone' => '6677859966',
         ]);
 
@@ -58,7 +58,7 @@ class AuthTest extends TestCase
         // Verifica que el endpoint responda con HTTP 200.
         $response->assertStatus(200);
 
-        // verificar exista la clave "access_token".
+        // Verificar que exista la clave "access_token".
         $this->assertArrayHasKey('access_token', $response->json());
         $this->assertArrayHasKey('user', $response->json());
 
@@ -67,7 +67,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * Comprueba que el registro de usuario se realize correctamente
+     * Comprueba que el registro de usuario se realice correctamente,
      * responda con un estado HTTP 201 e incluya un access_token.
      */
     public function test_register()
@@ -87,24 +87,24 @@ class AuthTest extends TestCase
             'role' => 1,
             'address' => 'test #123',
             'shipping_address' => 'test #1231',
-            'county' => 'Mexico',
+            'country' => 'Mexico',
             'phone' => '6677859966',
         ];
 
         //realizar una consulta post a la ruta api.register
-        $reponse = $this->postJson(route('api.register', $dataUser));
+        $response = $this->postJson(route('api.register', $dataUser));
 
-        //validar que se resiva un status 200
-        $reponse->assertStatus(201);
+        // Validar que se reciba un estado HTTP 201.
+        $response->assertStatus(201);
 
         //validar estructura
-        $reponse->assertJsonStructure([
+        $response->assertJsonStructure([
             'user',
             'access_token'
         ]);
 
         //validar que existe un access token 
-        $this->assertArrayhasKey('access_token', $reponse->json());
+        $this->assertArrayhasKey('access_token', $response->json());
 
         //validar existencia en DB
         $this->assertDataBaseHas('users', [
@@ -113,8 +113,8 @@ class AuthTest extends TestCase
     }
 
     /**
-     * Comprueba que se obtenga informacion de usuario
-     * responda con un estado HTTP 200 e incluya un array con la informacion del usuario.
+     * Comprueba que se obtenga información del usuario,
+     * se responda con un estado HTTP 200 y se incluya un array con la información del usuario.
      */
     public function test_user_can_retrieve_his_information(): void
     {
@@ -131,17 +131,17 @@ class AuthTest extends TestCase
             'password' => bcrypt('12345678'),
             'address' => 'test #123',
             'shipping_address' => 'test #1231',
-            'county' => 'Mexico',
+            'country' => 'Mexico',
             'phone' => '6677859966',
         ]);
 
         $token = $user->createToken('Auth Token')->accessToken;
         $response = $this->WithToken($token)->getJson(route('api.me'));
 
-        //codigo de exito esperado 
+        // Código de éxito esperado.
         $response->assertStatus(200);
 
-        //validar que envia la instancia del usuario
+        // Validar que envía la instancia del usuario.
         $this->assertArrayHasKey('user', $response->json());
 
         $response->assertJsonStructure([
@@ -150,8 +150,8 @@ class AuthTest extends TestCase
     }
 
     /**
-     * Comprueba que destruya el token del usuario
-     * responda con un estado HTTP 200 
+     * Comprueba que se revoque el token del usuario
+     * y se responda con un estado HTTP 204.
      */
     public function test_user_can_logout(): void
     {
@@ -165,7 +165,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('12345678'),
             'address' => 'test #123',
             'shipping_address' => 'test #1231',
-            'county' => 'Mexico',
+            'country' => 'Mexico',
             'phone' => '6677859966',
         ]);
 
@@ -174,9 +174,9 @@ class AuthTest extends TestCase
         $response = $this->withToken($token->accessToken)
             ->postJson(route('api.logout'));
 
-        //codigo 204
+        // Código 204.
         $response->assertNoContent();
-        // revisar que este revocado el token
+        // Revisar que esté revocado el token.
         $this->assertDatabaseHas('oauth_access_tokens', [
             'id' => $token->token->id,
             'user_id' => $user->id,

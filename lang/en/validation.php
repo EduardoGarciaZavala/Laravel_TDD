@@ -14,7 +14,7 @@ return [
         'full_name' => 'full name',
         'address' => 'address',
         'shipping_address' => 'shipping address',
-        'county' => 'county',
+        'country' => 'country',
         'phone' => 'phone'
     ],
 ];

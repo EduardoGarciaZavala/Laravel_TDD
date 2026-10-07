@@ -36,7 +36,7 @@ class AuthController extends Controller
     public function logout(){
 
     $this->auth->logout();
-    //tambien se puede enviar un mensaje 
+    // También se puede enviar un mensaje.
     return response()->noContent();
     }
 }

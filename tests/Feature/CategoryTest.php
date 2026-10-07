@@ -39,22 +39,22 @@ class CategoryTest extends TestCase
             'password' => bcrypt('12345678'),
             'address' => 'test #123',
             'shipping_address' => 'test #1231',
-            'county' => 'Mexico',
+            'country' => 'Mexico',
             'phone' => '6677859966',
         ]);
 
         //crea token
         $token = $user->createToken('Auth Token Test')->accessToken;
 
-        //Crear Categorias
+        // Crear categorías
 
-        //peticion get api.categories.index
+        // Petición GET a api.categories.index
         $response = $this->WithToken($token)->getJson(route('api.categories.index'));
 
         //verificar status 200
         $response->assertOk();
 
-        //Estructura esperada de la Api
+        // Estructura esperada de la API
         $response->assertJsonStructure([
             'categories' => [
                 '*' => [
