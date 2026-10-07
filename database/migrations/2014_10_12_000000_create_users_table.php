@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('role')->default(0);
             $table->string('address')->nullable;
             $table->string('shipping_address')->nullable;
-            $table->string('county')->nullable;
+            $table->string('country')->nullable;
             $table->string('phone')->nullable;
             $table->rememberToken();
             $table->timestamps();
