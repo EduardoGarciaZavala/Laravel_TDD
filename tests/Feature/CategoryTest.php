@@ -171,7 +171,7 @@ class CategoryTest extends TestCase
         ]);
 
         //Realizar peticion api.categories.show
-        $response = $this->withToken($token)->getJson(route('api.categories.show'), $category->id);
+        $response = $this->withToken($token)->getJson(route('api.categories.show',['id' => $category->id]));
 
         //validar status 200
         $response->assertOk();
