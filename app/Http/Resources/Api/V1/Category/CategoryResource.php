@@ -21,7 +21,7 @@ class CategoryResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'is_active' => (bool) $this->is_active,
-            'sort_order' => (bool) $this->is_active,
+            'sort_order' => (int) $this->is_active,
         ];
     }
 }
