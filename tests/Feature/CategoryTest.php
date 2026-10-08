@@ -6,13 +6,14 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
     use RefreshDatabase;
-    //Crear Personal access client
+    // Crear el cliente de acceso personal.
     public function clientRepository()
     {
         // Crea una instancia del repositorio que administra los clientes de Passport.
@@ -29,13 +30,13 @@ class CategoryTest extends TestCase
     // Verifica que se puedan listar las categorías.
     public function test_can_list_categories(): void
     {
-        //ver excepciones reales
+        // Verificar excepciones reales.
         $this->WithoutExceptionHandling();
 
-        //Crear personal access client
+        // Crear el cliente de acceso personal.
         $this->clientRepository();
 
-        //Crear usuario
+        // Crear usuario.
         $user = User::Create([
             'name' => 'Antonio',
             'full_name' => 'Antonio Varela',
@@ -47,13 +48,13 @@ class CategoryTest extends TestCase
             'phone' => '6677859966',
         ]);
 
-        //crea token
+        // Crear token.
         $token = $user->createToken('Auth Token Test')->accessToken;
 
         // Petición GET a api.categories.index
         $response = $this->WithToken($token)->getJson(route('api.categories.index'));
 
-        //verificar status 200
+        // Verificar el estado 200.
         $response->assertOk();
 
         // Estructura esperada de la API
@@ -76,13 +77,13 @@ class CategoryTest extends TestCase
     // Verifica que se pueda crear una categoría.
     public function test_can_create_a_category(): void
     {
-        //ver excepciones reales
+        // Verificar excepciones reales.
         $this->WithoutExceptionHandling();
 
-        //Crear personal access client
+        // Crear el cliente de acceso personal.
         $this->clientRepository();
 
-        //Crear Usuario
+        // Crear usuario.
         $user = User::create([
             'name' => 'Antonio',
             'full_name' => 'Antonio Varela',
@@ -94,29 +95,33 @@ class CategoryTest extends TestCase
             'phone' => '6677859966'
         ]);
 
-        //Crear token
+        // Crear token.
         $token = $user->createToken('Auth Token Test')->accessToken;
 
         $response = $this->withToken($token)->postJson(route('api.categories.store'), [
             'name' => 'Pantalón',
             'slug' => 'pantalon',
             'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
-            'image' => UploadedFile::fake()->image('pantalon.jpg'),
+            'image' => 'pantalon.jpg',
             'is_active' => true,
             'sort_order' => 1
         ]);
-        //Verificar que se creo la categoria
+        // Verificar que se creó la categoría.
         $response->assertCreated();
 
-        //Validar campos
+        // Validar campos.
         $response->assertJson([
             'category' => [
                 'name' => 'Pantalón',
                 'slug' => 'pantalon',
+                'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
+                'image' => 'categories/' . $image->hashName(),
+                'is_active' => true,
+                'sort_order' => 1
             ]
         ]);
 
-        //Validar structira
+        // Validar estructura.
         $response->assertJsonStructure([
             'category' => [
                 'name',
@@ -128,24 +133,29 @@ class CategoryTest extends TestCase
             ]
         ]);
 
-        //Verificar registro en la DB
+        // Verificar el registro en la base de datos.
         $this->assertDatabaseHas('categories', [
             'name' => 'Pantalón',
             'slug' => 'pantalon',
             'is_active' => true
         ]);
+
+        //Verificar imagen
+        Storage::disk('public')->assertExists(
+            'categories/' . $image->hashName()
+        );
     }
 
     // Verifica que se pueda consultar una categoría.
     public function test_can_show_a_category(): void
     {
-        //ver excepciones reales
+        // Verificar excepciones reales.
         $this->WithoutExceptionHandling();
 
-        //Crear personal access client
+        // Crear el cliente de acceso personal.
         $this->clientRepository();
 
-        //Crear usuario
+        // Crear usuario.
         $user = User::Create([
             'name' => 'Antonio',
             'full_name' => 'Antonio Varela',
@@ -157,32 +167,43 @@ class CategoryTest extends TestCase
             'phone' => '6677859966',
         ]);
 
-        //crea token
+        // Crear token.
         $token = $user->createToken('Auth Token Test')->accessToken;
 
-        //Crear categoria
+        // Crear categoría.
         $category = Category::create([
             'name' => 'Pantalón',
             'slug' => 'pantalon',
             'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
-            'image' => UploadedFile::fake()->image('pantalon.jpg'),
+            'image' => 'pantalon.jpg',
             'is_active' => true,
             'sort_order' => 1
         ]);
 
-        //Realizar peticion api.categories.show
-        $response = $this->withToken($token)->getJson(route('api.categories.show',['id' => $category->id]));
+        // Realizar petición a api.categories.show.
+        $response = $this->withToken($token)->getJson(route('api.categories.show', ['id' => $category->id]));
 
-        //validar status 200
+        // Validar el estado 200.
         $response->assertOk();
 
-        //validar campo de la categoria  
+        // Validar el campo de la categoría.
         $response->assertJson([
             'category' => [
-                'name' => 'Pantalón'
+                'name' => 'Pantalón',
+                'slug' => 'pantalon',
+                'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
+                'image' => 'pantalon.jpg',
+                'is_active' => true,
+                'sort_order' => 1
             ]
         ]);
-        //Validar estructura de la categoria
+
+        //Validar imagen
+        Storage::disk('public')->assertExists(
+            'categories/' . $image->hashName()
+        );
+
+        // Validar la estructura de la categoría.
         $response->assertJsonStructure([
             'category' => [
                 'id',
