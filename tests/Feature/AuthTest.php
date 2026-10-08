@@ -95,7 +95,8 @@ class AuthTest extends TestCase
         $response = $this->postJson(route('api.register', $dataUser));
 
         // Validar que se reciba un estado HTTP 201.
-        $response->assertStatus(201);
+        //$response->assertStatus(201);
+        $response->assertCreated();
 
         //validar estructura
         $response->assertJsonStructure([
@@ -144,8 +145,15 @@ class AuthTest extends TestCase
         // Validar que envía la instancia del usuario.
         $this->assertArrayHasKey('user', $response->json());
 
+        //Validar campo del usuario
+        $response->assertJson([
+            'user' => [
+                'name' => 'Antonio'
+            ]]);
+
         $response->assertJsonStructure([
-            'user', 'access_token'
+            'user',
+            'access_token'
         ]);
     }
 
