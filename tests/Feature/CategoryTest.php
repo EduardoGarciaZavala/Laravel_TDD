@@ -98,11 +98,15 @@ class CategoryTest extends TestCase
         // Crear token.
         $token = $user->createToken('Auth Token Test')->accessToken;
 
+        // Crear imagen de prueba
+        Storage::fake('public');
+        $image = UploadedFile::fake()->image('pantalon.jpg');
+
         $response = $this->withToken($token)->postJson(route('api.categories.store'), [
             'name' => 'Pantalón',
             'slug' => 'pantalon',
             'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
-            'image' => 'pantalon.jpg',
+            'image' => $image,
             'is_active' => true,
             'sort_order' => 1
         ]);
@@ -170,12 +174,16 @@ class CategoryTest extends TestCase
         // Crear token.
         $token = $user->createToken('Auth Token Test')->accessToken;
 
+        // Crear imagen de prueba
+        Storage::fake('public');
+        $image = UploadedFile::fake()->image('pantalon.jpg');
+
         // Crear categoría.
         $category = Category::create([
             'name' => 'Pantalón',
             'slug' => 'pantalon',
             'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
-            'image' => 'pantalon.jpg',
+            'image' => $image->store('categories', 'public'),
             'is_active' => true,
             'sort_order' => 1
         ]);
@@ -192,7 +200,7 @@ class CategoryTest extends TestCase
                 'name' => 'Pantalón',
                 'slug' => 'pantalon',
                 'description' => 'Prenda de vestir para la parte inferior del cuerpo.',
-                'image' => 'pantalon.jpg',
+                'image' => 'categories/' . $image->hashName(),
                 'is_active' => true,
                 'sort_order' => 1
             ]
