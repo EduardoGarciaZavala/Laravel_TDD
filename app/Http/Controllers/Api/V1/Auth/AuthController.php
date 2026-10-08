@@ -33,10 +33,11 @@ class AuthController extends Controller
         return response()->json(new AuthResource($this->auth->me()));
     }
 
-    public function logout(){
+    public function logout()
+    {
 
-    $this->auth->logout();
-    // También se puede enviar un mensaje.
-    return response()->noContent();
+        $this->auth->logout();
+        // También se puede enviar un mensaje.
+        return response()->noContent();
     }
 }
