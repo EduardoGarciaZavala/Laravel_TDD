@@ -19,10 +19,13 @@ class CategoryService implements CategoryServiceInterface
 
     public function store(array $data): Category
     {
+
+        $data['image'] = $data['image']->store('categories', 'public');
         return $this->category->store($data);
     }
 
-    public function show(int $id): Category {
+    public function show(int $id): Category
+    {
         return $this->category->show($id);
     }
 }
