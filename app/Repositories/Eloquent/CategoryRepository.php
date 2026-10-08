@@ -18,4 +18,9 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::create($data);
     }
+
+    public function show(int $id): Category
+    {
+        return Category::findOrFail($id);
+    }
 }

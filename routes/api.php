@@ -18,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 //Rutas Auth
 Route::middleware('auth:api')->get('/me', [AuthController::class, 'me'])->name('api.me');
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('api.logout');
-Route::post('/login', [AuthController::class, 'login'])->name('api.login');
-Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+Route::post('/v1/login', [AuthController::class, 'login'])->name('api.login');
+Route::post('/v1/register', [AuthController::class, 'register'])->name('api.register');
 
 //Rutas Categories
-Route::middleware('auth:api')->get('/categories', [CategoryController::class, 'index'])->name('api.categories.index');
-Route::middleware('auth:api')->post('/categories', [CategoryController::class, 'store'])->name('api.categories.store');
+Route::middleware('auth:api')->get('/v1/categories', [CategoryController::class, 'index'])->name('api.categories.index');
+Route::middleware('auth:api')->post('/v1/categories', [CategoryController::class, 'store'])->name('api.categories.store');
+Route::middleware('auth:api')->get('/v1/categories/{id}', [CategoryController::class, 'show'])->name('api.categories.show');

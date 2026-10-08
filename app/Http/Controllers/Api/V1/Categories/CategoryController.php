@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Category\StoreCategoryRequest;
 use App\Http\Resources\Api\V1\Category\CategoryResource;
 use App\Interfaces\Services\CategoryServiceInterface;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -24,5 +25,10 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         return response()->json(['category' => new CategoryResource($this->category->store($data))], 201);
+    }
+
+    public function show(int $id)
+    {
+        return response()->json(['category' => new CategoryResource($this->category->show($id))]);
     }
 }

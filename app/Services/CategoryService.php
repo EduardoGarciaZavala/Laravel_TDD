@@ -21,4 +21,8 @@ class CategoryService implements CategoryServiceInterface
     {
         return $this->category->store($data);
     }
+
+    public function show(int $id): Category {
+        return $this->category->show($id);
+    }
 }
