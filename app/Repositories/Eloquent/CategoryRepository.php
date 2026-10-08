@@ -13,4 +13,9 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::all();
     }
+
+    public function store(array $data): Category
+    {
+        return Category::create($data);
+    }
 }

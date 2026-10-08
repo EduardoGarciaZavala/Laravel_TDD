@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\Repositories\CategoryRepositoryInterface;
 use App\Interfaces\Services\CategoryServiceInterface;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
 class CategoryService implements CategoryServiceInterface
@@ -14,5 +15,10 @@ class CategoryService implements CategoryServiceInterface
     public function index(): Collection
     {
         return $this->category->index();
+    }
+
+    public function store(array $data): Category
+    {
+        return $this->category->store($data);
     }
 }
